@@ -13,7 +13,7 @@
   --glass-bg:rgba(255,255,255,0.04);
   --glass-border:rgba(255,100,200,0.18);
 }
-html,body{width:100%;height:100vh;overflow:hidden;}
+html,body{width:100%;min-height:100dvh;height:100dvh;overflow:hidden;}
 body{
   background:#04000d;
   font-family:'Poppins',sans-serif;
@@ -47,17 +47,18 @@ body{
 #card{
   position:relative;z-index:10;
   display:flex;flex-direction:column;justify-content:center;align-items:center;
-  padding:1.4rem 1.8rem 1rem;
+  padding:clamp(14px,3vw,24px);
   background:var(--glass-bg);
   border:1px solid var(--glass-border);border-radius:32px;
   backdrop-filter:blur(24px) saturate(180%);
   -webkit-backdrop-filter:blur(24px) saturate(180%);
   box-shadow:0 0 0 1px rgba(255,100,200,.08),0 8px 32px rgba(0,0,0,.6),0 0 80px rgba(180,50,255,.12),inset 0 1px 0 rgba(255,255,255,.06);
-  width:min(430px,93vw);
-  min-height:720px;
-  max-height:92vh;
+  width: min(430px,94vw);
+  height: auto;
+  min-height: auto;
+  max-height: 94dvh;
   overflow:hidden;
-  gap:10px;
+  gap: clamp(6px,1.5vh,12px);
   animation:cardAppear 1.2s cubic-bezier(.23,1,.32,1) forwards;
 }
 @keyframes cardAppear{from{opacity:0;transform:translateY(30px) scale(.97);}to{opacity:1;transform:translateY(0) scale(1);}}
@@ -67,6 +68,13 @@ body{
 /* ── TITLE ── */
 #baslik-wrap{text-align:center;margin-bottom:10px;position:relative;}
 #baslik-line1{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,7vw,3.4rem);font-weight:700;background:linear-gradient(135deg,#ffb3e0 0%,#ff4fa3 40%,#c44dff 80%,#ffb3e0 100%);background-size:300% 300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:gradientShift 4s ease infinite,titleFloat 3s ease-in-out infinite;display:block;line-height:1.2;filter:drop-shadow(0 0 20px rgba(255,79,163,.5));letter-spacing:.02em;}
+
+/* Final card mode (centers final composition without changing layout flow) */
+#card.final-mode{justify-content:center}
+#card.final-mode #baslik-wrap{margin-bottom:6px}
+#card.final-mode #baslik-line1{font-size:clamp(1.8rem,7vw,2.8rem)}
+#card.final-mode #baslik-line2{font-size:clamp(1rem,4.2vw,1.4rem)}
+#card.final-mode #sonMesaj{margin-top:6px}
 #baslik-line2{font-family:'Poppins',sans-serif;font-size:clamp(.85rem,2.4vw,1rem);font-weight:500;color:rgba(255,180,220,.8);letter-spacing:.15em;display:block;margin-top:.3rem;}
 #baslik-wrap::after{content:'✦  ✦  ✦';display:block;font-size:.55rem;letter-spacing:.8em;color:rgba(255,100,180,.35);margin-top:.6rem;}
 @keyframes gradientShift{0%,100%{background-position:0% 50%;}50%{background-position:100% 50%;}}
@@ -122,16 +130,15 @@ body{
 /* ══════════════════════════════════════════
    GLASS DOME + MAGICAL ROSE — FINAL SCENE
 ══════════════════════════════════════════ */
-#cicek-wrap{display:none;flex-direction:column;align-items:center;justify-content:center;margin-top:-100px;transform:translateY(-60px);}
-#cicek-wrap.goster{display:flex;animation:fadeRise 1s cubic-bezier(.23,1,.32,1) forwards;}
-@keyframes fadeRise{from{opacity:0;transform:translateY(25px);}to{opacity:1;transform:translateY(0);}}
+#cicek-wrap{display:none;flex-direction:column;align-items:center;justify-content:center;margin-top:0;transform:none;}
+#cicek-wrap.goster{display:flex;animation:fadeRise .8s ease forwards;}
+@keyframes fadeRise { from { opacity: 0; transform: translateY(10px) scale(.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
 /* Dome SVG sizing */
 #dome-svg{
-  width:clamp(220px,35vw,380px);height:clamp(250px,38vh,340px);overflow:visible;
+  width:clamp(210px,62vw,320px);height:clamp(250px,42dvh,360px);max-height:42dvh;overflow:visible;object-fit:contain;
   filter:drop-shadow(0 0 18px rgba(255,79,163,.5)) drop-shadow(0 0 50px rgba(180,50,255,.3));
   animation:domeFloat 4s ease-in-out infinite;
-  transform:translateY(-20px);
 }
 @keyframes domeFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-7px);}}
 
@@ -180,18 +187,38 @@ body{
 @keyframes auraPulse{0%,100%{opacity:.25;}50%{opacity:.6;}}
 
 /* ── MESSAGE ── */
-#sonMesaj{display:block;margin-top:-10px;font-family:'Poppins',sans-serif;font-size:34px;line-height:1.15;font-weight:800;text-align:center;color:#ff9ad5;text-shadow:0 0 12px #ff4fa3,0 0 30px rgba(255,79,163,.8);opacity:0;transform:translateY(12px);z-index:20;}
+#sonMesaj{display:block;margin-top:4px;font-family:'Poppins',sans-serif;font-size:clamp(1.6rem,5vw,2.2rem);line-height:1.1;font-weight:800;text-align:center;color:#ff9ad5;text-shadow:0 0 12px #ff4fa3,0 0 30px rgba(255,79,163,.8);opacity:0;transform:translateY(12px);z-index:20;}
 #sonMesaj.goster{opacity:1;transform:translateY(0);transition:all .9s ease;}
 
 /* ── REPLAY ── */
 #tekrarBtn{display:none;}
 
 @media(max-width:480px){
-  #card{padding:2rem 1.6rem 1.8rem;}
-  #sahne{width:150px;height:150px;}
-  #kalp-svg{width:90px;height:90px;}
-  .ring1{width:100px;height:100px;}.ring2{width:130px;height:130px;}.ring3{width:158px;height:158px;}
-  #dome-svg{width:180px;height:228px;}
+  #card{
+    width:94vw;
+    max-height:94dvh;
+    padding:16px 14px;
+    gap:6px;
+  }
+
+  #baslik-line1{
+    font-size:clamp(2rem,11vw,3rem);
+    line-height:1.05;
+  }
+
+  #baslik-wrap{margin-bottom:4px}
+
+  #dome-svg{
+    width:clamp(220px,78vw,310px);
+    height:clamp(250px,40dvh,340px);
+    max-height:40dvh;
+  }
+
+  #sonMesaj{
+    font-size:clamp(1.5rem,8vw,2.4rem);
+    line-height:1.08;
+    margin-top:0;
+  }
 }
 </style>
 </head>
@@ -546,10 +573,12 @@ body{
 /* ── STARS ── */
 (function(){
   const c=document.getElementById('stars');
-  for(let i=0;i<250;i++){
+  const STAR_COUNT = window.innerWidth < 480 ? 80 : 250;
+  for(let i=0;i<STAR_COUNT;i++){
     const s=document.createElement('div'); s.className='star';
-    const sz=Math.random()<.15?1.5+Math.random()*1.5:.5+Math.random();
-    s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--min-op:${(.05+Math.random()*.15).toFixed(2)};--max-op:${(.4+Math.random()*.6).toFixed(2)};--d:${(2+Math.random()*4).toFixed(1)}s;--delay:${(-Math.random()*5).toFixed(1)}s;box-shadow:0 0 ${sz*2}px rgba(255,200,240,0.6);`;
+    // slightly larger stars on small screens for visibility
+    const sz=(window.innerWidth<480?1.2:Math.random()<.15?1.5+Math.random()*1.5:.5+Math.random());
+    s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--min-op:${(.05+Math.random()*.15).toFixed(2)};--max-op:${(.45+Math.random()*.55).toFixed(2)};--d:${(1.8+Math.random()*3).toFixed(1)}s;--delay:${(-Math.random()*5).toFixed(1)}s;box-shadow:0 0 ${Math.max(2,sz*2)}px rgba(255,200,240,0.75);`;
     c.appendChild(s);
   }
 })();
@@ -557,11 +586,14 @@ body{
 /* ── DUST ── */
 (function(){
   const cols=['rgba(255,79,163,VAL)','rgba(180,50,255,VAL)','rgba(255,180,220,VAL)'];
-  for(let i=0;i<100;i++){
+  const DUST_COUNT = window.innerWidth < 480 ? 30 : 100;
+  for(let i=0;i<DUST_COUNT;i++){
     const el=document.createElement('div'); el.className='dust';
-    const sz=1.5+Math.random()*5;
-    const col=cols[Math.floor(Math.random()*cols.length)].replace('VAL',(.5+Math.random()*.5).toFixed(2));
-    el.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;bottom:${-sz}px;background:${col};box-shadow:0 0 ${sz*6}px ${col};--dur:${8+Math.random()*10}s;--del:${-Math.random()*12}s;--dx:${Math.random()*60-30}px;--op:${.4+Math.random()*.5};`;
+    // larger, brighter dust on mobile for visibility
+    const base = window.innerWidth<480?1.2:1.5;
+    const sz=base + Math.random()*5;
+    const col=cols[Math.floor(Math.random()*cols.length)].replace('VAL',(.45+Math.random()*.5).toFixed(2));
+    el.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;bottom:${-sz}px;background:${col};color:${col};box-shadow:0 0 ${sz*6}px ${col};--dur:${8+Math.random()*10}s;--del:${-Math.random()*12}s;--dx:${Math.random()*60-30}px;--op:${.35+Math.random()*.55};`;
     document.body.appendChild(el);
   }
 })();
@@ -596,24 +628,33 @@ function kalbiPatlat(){
   setTimeout(()=>flash.classList.remove('aktif'),700);
   kalpWrap.classList.remove('buyuyor'); void kalpWrap.offsetWidth;
   kalpWrap.classList.add('patladi');
-  for(let i=0;i<200;i++) setTimeout(()=>spawnParticle(cx,cy),i*6+Math.random()*120);
+  // Adjust particle count for mobile devices to improve performance
+  const TOTAL_PARTICLES = window.innerWidth < 420 ? 120 : window.innerWidth < 768 ? 160 : 200;
+  const STEP = window.innerWidth < 420 ? 10 : 6;
+  for(let i=0;i<TOTAL_PARTICLES;i++) setTimeout(()=>spawnParticle(cx,cy),i*STEP+Math.random()*120);
   setTimeout(cicekGoster, 900);
 }
 
 function spawnParticle(cx,cy){
   const el=document.createElement('div'); el.classList.add('parcacik');
   const col=COLORS[Math.floor(Math.random()*COLORS.length)];
-  if(Math.random()<.5){
-    const sz=3+Math.random()*10;
-    el.style.width=sz+'px'; el.style.height=sz+'px';
-    el.style.background=`radial-gradient(circle at 30% 30%,white,${col})`;
-    el.style.boxShadow=`0 0 ${sz*1.5}px ${col},0 0 ${sz*3}px ${col}55`;
+  const isSmall = window.innerWidth < 420;
+  if(Math.random() < (isSmall ? 0.6 : 0.5)){
+    const sz = (isSmall ? 2 + Math.random()*6 : 3 + Math.random()*10);
+    el.style.width = sz+'px'; el.style.height = sz+'px';
+    el.style.background = `radial-gradient(circle at 30% 30%,white,${col})`;
+    const glow1 = Math.max(2, Math.round(sz*1.2));
+    const glow2 = Math.max(4, Math.round(sz*2));
+    el.style.boxShadow = `0 0 ${glow1}px ${col},0 0 ${glow2}px ${col}55`;
   } else {
     el.classList.add('spark');
-    const w=2+Math.random()*2.5, h=5+Math.random()*12;
-    el.style.width=w+'px'; el.style.height=h+'px';
-    el.style.background=col; el.style.borderRadius='2px';
-    el.style.boxShadow=`0 0 ${h}px ${col},0 0 ${h*2}px ${col}88`;
+    const w = (isSmall ? 1.6 + Math.random()*2 : 2 + Math.random()*2.5);
+    const h = (isSmall ? 4 + Math.random()*8 : 5 + Math.random()*12);
+    el.style.width = w+'px'; el.style.height = h+'px';
+    el.style.background = col; el.style.borderRadius = '2px';
+    const glowA = Math.max(3, Math.round(h));
+    const glowB = Math.max(6, Math.round(h*1.6));
+    el.style.boxShadow = `0 0 ${glowA}px ${col},0 0 ${glowB}px ${col}88`;
   }
   el.style.left=cx+'px'; el.style.top=cy+'px'; el.style.transform='translate(-50%,-50%)';
   const angle=Math.random()*2*Math.PI, speed=60+Math.random()*280, grav=50+Math.random()*130;
@@ -630,19 +671,24 @@ function cicekGoster(){
   sahne.classList.add('hidden');
   cicekWrap.classList.add('goster');
 
-  // Build dome sparkles
+  // Put card into final-mode to optimize layout for final scene
+  const card = document.getElementById('card');
+  if(card) card.classList.add('final-mode');
+  const dok = document.getElementById('dokunBtn'); if(dok) dok.style.display='none';
+
+  // Build dome sparkles (slightly delayed)
   setTimeout(buildDomeSparkles, 800);
 
-  setTimeout(()=>{
-    sonMesaj.classList.add('goster');
-  }, 800);
+  // Reveal final message overlapping confetti
+  setTimeout(()=>{ sonMesaj.classList.add('goster'); }, 800);
 }
 
 /* ── DOME SPARKLES ── */
 function buildDomeSparkles(){
   const container=document.getElementById('dome-sparkles');
   const sparkColors=['#ff79c6','#ffb3e0','#c44dff','#ffffff','#ffd6ec','#b44cff'];
-  for(let i=0;i<35;i++){
+  const DOME_SPARKLES = window.innerWidth < 480 ? 10 : 35;
+  for(let i=0;i<DOME_SPARKLES;i++){
     const el=document.createElement('div');
     el.className='dome-sparkle';
     const sz=2+Math.random()*4;
